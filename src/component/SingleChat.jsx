@@ -13,14 +13,13 @@ import Lottie from 'react-lottie';
 import animationData from '../animations/typing.json';
 import { toast } from 'react-toastify';
 
-//const ENDPOINT = 'http://localhost:8000';
 const ENDPOINT = 'https://chat-app-backend-qxkv.onrender.com';
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [newMessage, setNewMessage] = useState();
+  const [newMessage, setNewMessage] = useState('');
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
@@ -33,7 +32,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       preserveAspectRatio: 'xMidYMid slice',
     },
   };
-
 
   const { user, selectedChat, setSelectedChat, notification, setNotification } = ChatState();
 
@@ -56,7 +54,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
       socket.emit('join chat', selectedChat._id);
     } catch (error) {
-      toast.error('Failed to fetch messages', { variant: 'error' });
+      toast.error('Failed to fetch messages. Please try again.', { position: 'top-right' });
     }
   };
 
@@ -91,10 +89,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
 
         socket.emit('new message', data);
-
         setMessages([...messages, data]);
       } catch (error) {
-        toast.error('Failed to send the message', { variant: 'error' });
+        toast.error('Failed to send the message. Please try again.', { position: 'top-right' });
       }
     }
   };
@@ -107,7 +104,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   useEffect(() => {
     socket.on('message received', (newMessageReceived) => {
       if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
-        // give notification
         if (!notification.includes(newMessageReceived)) {
           setNotification([newMessageReceived, ...notification]);
           setFetchAgain(!fetchAgain);
@@ -121,7 +117,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
 
-    // typing indicator logic
     if (!socketConnected) return;
 
     if (!typing) {
@@ -130,10 +125,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
 
     let lastTypingTime = new Date().getTime();
-    var timerLength = 3000;
+    const timerLength = 3000;
+
     setTimeout(() => {
-      var timeNow = new Date().getTime();
-      var timeDiff = timeNow - lastTypingTime;
+      const timeNow = new Date().getTime();
+      const timeDiff = timeNow - lastTypingTime;
 
       if (timeDiff >= timerLength && typing) {
         socket.emit('stop typing', selectedChat._id);
@@ -153,6 +149,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             display="flex"
             justifyContent="space-between"
             alignItems="center"
+            sx={{ color: '#4a90e2' }}
           >
             <IconButton
               display={{ base: 'flex', md: 'none' }}
@@ -187,7 +184,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             borderRadius="lg"
             overflow="hidden"
             sx={{
-              backgroundImage: `url(/assest/chat.png)`,
+              backgroundImage: `url(/assets/chat.png)`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
@@ -217,6 +214,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 fullWidth
                 sx={{
                   backgroundColor: '#E0E0E0',
+                  borderRadius: '20px',
+                  '& .MuiInputBase-root': {
+                    paddingLeft: '15px',
+                  },
+                  '& .MuiFilledInput-root': {
+                    borderRadius: '25px',
+                    padding: '5px',
+                  },
                 }}
               />
             </FormControl>

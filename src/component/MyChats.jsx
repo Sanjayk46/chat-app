@@ -12,6 +12,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ChatLoading from './ChatLoading';
 import { getSender } from '../config/ChatLogics';
 import GroupChatModal from './Miscellaneous/GroupChatModal';
+import { toast } from 'react-toastify'; // Import toastify for notifications
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
@@ -27,9 +28,9 @@ const MyChats = ({ fetchAgain }) => {
       };
 
       const { data } = await AxiosService.get('/api/chat', config);
-      console.log(data);
       setChats(data);
     } catch (error) {
+      toast.error('Failed to load chats', { position: 'top-right' }); // Display toast error message
       console.error('Failed to load chats', error);
     }
   };
@@ -90,9 +91,7 @@ const MyChats = ({ fetchAgain }) => {
               <Box
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
-                backgroundColor={
-                  selectedChat === chat ? theme.palette.primary.main : theme.palette.grey[300]
-                }
+                backgroundColor={selectedChat === chat ? theme.palette.primary.main : theme.palette.grey[300]}
                 color={selectedChat === chat ? 'white' : 'black'}
                 paddingX={2}
                 paddingY={1}

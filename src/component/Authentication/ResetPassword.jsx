@@ -4,6 +4,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import AxiosService from '../../axiosConfig';
 import { ChatState } from '../../Context/ChatProvider';
+import { toast } from 'react-toastify';  // Importing Toastify
 
 const ResetPassword = () => {
   const [show, setShow] = useState(false);
@@ -23,13 +24,19 @@ const ResetPassword = () => {
     setLoading(true);
 
     if (!OTP) {
-      alert('Please fill all the fields');
+      toast.warning('Please fill all the fields', {
+        position: 'bottom-right',
+        autoClose: 5000,
+      });
       setLoading(false);
       return;
     }
 
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      toast.warning('Passwords do not match', {
+        position: 'bottom-right',
+        autoClose: 5000,
+      });
       setLoading(false);
       return;
     }
@@ -43,21 +50,27 @@ const ResetPassword = () => {
 
       const { data } = await AxiosService.post('/api/user/resetPassword', { OTP, password }, config);
 
-      alert('Password changed successfully');
+      toast.success('Password changed successfully', {
+        position: 'bottom-right',
+        autoClose: 5000,
+      });
       setUser(data);
       localStorage.setItem('userInfo', JSON.stringify(data));
       setLoading(false);
       navigate('/');
     } catch (error) {
       console.error(error);
-      alert(error.response?.data?.message || 'Error occurred');
+      toast.error(error.response?.data?.message || 'Error occurred', {
+        position: 'bottom-right',
+        autoClose: 5000,
+      });
       setLoading(false);
     }
   };
 
   return (
-    <Container maxWidth="sm" style={{ marginTop: '2rem' }}>
-      <Typography variant="h4" gutterBottom>
+    <Container maxWidth="sm" sx={{ marginTop: '2rem', padding: '2rem', boxShadow: 3, borderRadius: '8px', backgroundColor: '#fff' }}>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#333' }}>
         Reset Password
       </Typography>
       <Grid container spacing={2}>
@@ -69,6 +82,14 @@ const ResetPassword = () => {
             value={OTP}
             onChange={(e) => setOTP(e.target.value)}
             required
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderColor: '#ddd',
+              },
+              '&:hover .MuiOutlinedInput-root': {
+                borderColor: '#3f51b5',
+              },
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -88,6 +109,14 @@ const ResetPassword = () => {
                   </IconButton>
                 </InputAdornment>
               ),
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderColor: '#ddd',
+              },
+              '&:hover .MuiOutlinedInput-root': {
+                borderColor: '#3f51b5',
+              },
             }}
           />
         </Grid>
@@ -109,6 +138,14 @@ const ResetPassword = () => {
                 </InputAdornment>
               ),
             }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderColor: '#ddd',
+              },
+              '&:hover .MuiOutlinedInput-root': {
+                borderColor: '#3f51b5',
+              },
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -118,8 +155,17 @@ const ResetPassword = () => {
             fullWidth
             onClick={submitHandler}
             disabled={loading}
+            sx={{
+              padding: '10px',
+              borderRadius: '8px',
+              fontWeight: 'bold',
+              backgroundColor: '#3f51b5',
+              '&:hover': {
+                backgroundColor: '#303f9f',
+              },
+            }}
           >
-            Submit
+            {loading ? 'Loading...' : 'Submit'}
           </Button>
         </Grid>
       </Grid>

@@ -73,15 +73,21 @@ const Login = () => {
         display: 'flex', 
         flexDirection: 'column', 
         alignItems: 'center', 
-        gap: 2, 
-        width: '100%' 
+        gap: 3, 
+        width: '100%', 
+        padding: '2rem', 
+        boxShadow: 3, 
+        borderRadius: '8px', 
+        backgroundColor: '#fff',
+        maxWidth: '400px',
+        margin: 'auto'
       }}
     >
-      <Typography variant="h5" component="h1" sx={{ color: 'black' }}>
+      <Typography variant="h5" component="h1" sx={{ color: 'black', fontWeight: 'bold' }}>
         Login
       </Typography>
 
-      <FormControl variant="outlined" fullWidth required>
+      <FormControl variant="outlined" fullWidth required sx={{ marginBottom: 2 }}>
         <InputLabel htmlFor="email-login">Email</InputLabel>
         <OutlinedInput
           id="email-login"
@@ -89,10 +95,22 @@ const Login = () => {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           label="Email"
+          sx={{
+            borderRadius: '8px',
+            '& .MuiOutlinedInput-root': {
+              borderColor: '#ddd',
+            },
+            '& .MuiInputLabel-root': {
+              color: '#555',
+            },
+            '&:hover .MuiOutlinedInput-root': {
+              borderColor: '#3f51b5',
+            },
+          }}
         />
       </FormControl>
 
-      <FormControl variant="outlined" fullWidth required>
+      <FormControl variant="outlined" fullWidth required sx={{ marginBottom: 2 }}>
         <InputLabel htmlFor="password-login">Password</InputLabel>
         <OutlinedInput
           id="password-login"
@@ -112,6 +130,18 @@ const Login = () => {
             </InputAdornment>
           }
           label="Password"
+          sx={{
+            borderRadius: '8px',
+            '& .MuiOutlinedInput-root': {
+              borderColor: '#ddd',
+            },
+            '& .MuiInputLabel-root': {
+              color: '#555',
+            },
+            '&:hover .MuiOutlinedInput-root': {
+              borderColor: '#3f51b5',
+            },
+          }}
         />
       </FormControl>
 
@@ -121,13 +151,22 @@ const Login = () => {
         fullWidth
         disabled={loading}
         onClick={submitHandler}
-        sx={{ mt: 2 }}
+        sx={{
+          padding: '10px',
+          borderRadius: '8px',
+          fontWeight: 'bold',
+        }}
       >
         {loading ? 'Loading...' : 'Login'}
       </Button>
 
-      <Link to="/forgotPassword" style={{ textDecoration: 'none', color: 'blue', marginTop: '10px' }}>
-        If you don't know your password, click here
+      <Link 
+        to="/forgotPassword" 
+        style={{ textDecoration: 'none', color: 'black', marginTop: '10px' }}
+      >
+        <Typography variant="body2" sx={{ textAlign: 'center' }}>
+          If you don't know your password, click here
+        </Typography>
       </Link>
     </Box>
   );

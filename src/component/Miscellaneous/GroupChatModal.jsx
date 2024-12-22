@@ -24,7 +24,6 @@ const GroupChatModal = ({ children }) => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [chatId, setChatId] = useState(null);
 
   const { user, chats, setChats } = ChatState();
 
@@ -111,8 +110,8 @@ const GroupChatModal = ({ children }) => {
     <>
       <span onClick={handleOpen}>{children}</span>
 
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-        <DialogTitle>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" sx={{ borderRadius: '8px' }}>
+        <DialogTitle sx={{ fontWeight: 'bold', display: 'flex', justifyContent: 'space-between' }}>
           Manage Group Chat
           <IconButton
             aria-label="close"
@@ -122,13 +121,19 @@ const GroupChatModal = ({ children }) => {
             <Close />
           </IconButton>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{ paddingTop: 2 }}>
           <TextField
             fullWidth
             label="Chat Name"
             margin="dense"
             value={groupChatName}
             onChange={(e) => setGroupChatName(e.target.value)}
+            sx={{
+              mb: 2,
+              '& .MuiInputBase-root': {
+                borderRadius: '8px',
+              },
+            }}
           />
           <TextField
             fullWidth
@@ -136,6 +141,12 @@ const GroupChatModal = ({ children }) => {
             margin="dense"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            sx={{
+              mb: 2,
+              '& .MuiInputBase-root': {
+                borderRadius: '8px',
+              },
+            }}
           />
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 2 }}>
             {selectedUsers.map((u) => (
@@ -150,11 +161,28 @@ const GroupChatModal = ({ children }) => {
             ))
           )}
         </DialogContent>
-        <DialogActions>
-          <Button color="primary" onClick={handleSubmit}>
+        <DialogActions sx={{ padding: '16px 24px' }}>
+          <Button
+            color="primary"
+            onClick={handleSubmit}
+            sx={{
+              backgroundColor: '#38B2AC',
+              color: 'white',
+              '&:hover': { backgroundColor: '#319e94' },
+              padding: '8px 16px',
+              borderRadius: '8px',
+            }}
+          >
             Create Group
           </Button>
-          <Button onClick={handleClose} color="secondary">
+          <Button
+            onClick={handleClose}
+            color="secondary"
+            sx={{
+              padding: '8px 16px',
+              borderRadius: '8px',
+            }}
+          >
             Cancel
           </Button>
         </DialogActions>

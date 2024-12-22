@@ -18,7 +18,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import SearchIcon  from '@mui/icons-material/Search';
+import SearchIcon from '@mui/icons-material/Search';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { useNavigate } from 'react-router-dom';
 import AxiosService from '../../axiosConfig';
@@ -93,18 +93,19 @@ const SideDrawer = () => {
 
   return (
     <>
-      <AppBar position="static" color="default">
+      <AppBar position="static" color="default" sx={{ boxShadow: 3 }}>
         <Toolbar>
           <Tooltip title="Search users to chat">
-            <IconButton onClick={() => setDrawerOpen(true)}>
+            <IconButton onClick={() => setDrawerOpen(true)} sx={{ color: 'primary.main' }}>
               <SearchIcon />
             </IconButton>
           </Tooltip>
-          <Typography variant="h6" style={{ flexGrow: 1 }}>
+          <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
             Chat App
           </Typography>
           <IconButton
             onClick={(event) => setNotificationAnchorEl(event.currentTarget)}
+            sx={{ color: 'primary.main' }}
           >
             <Badge badgeContent={notification.length} color="error">
               <NotificationsActiveIcon />
@@ -114,6 +115,7 @@ const SideDrawer = () => {
             anchorEl={notificationAnchorEl}
             open={Boolean(notificationAnchorEl)}
             onClose={() => setNotificationAnchorEl(null)}
+            sx={{ '& .MuiPaper-root': { minWidth: 300 } }}
           >
             {!notification.length && <MenuItem>No new messages</MenuItem>}
             {notification.map((notif) => (
@@ -131,7 +133,7 @@ const SideDrawer = () => {
               </MenuItem>
             ))}
           </Menu>
-          <IconButton onClick={(event) => setAnchorEl(event.currentTarget)}>
+          <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} sx={{ color: 'primary.main' }}>
             <Avatar alt={user.name} src={user.pic} />
           </IconButton>
           <Menu
@@ -145,9 +147,9 @@ const SideDrawer = () => {
         </Toolbar>
       </AppBar>
 
-      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <Box p={2} width="300px" role="presentation">
-          <Typography variant="h6" gutterBottom>
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} sx={{ width: 300 }}>
+        <Box p={2} role="presentation" sx={{ width: '100%', backgroundColor: '#f7f7f7' }}>
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
             Search Users
           </Typography>
           <Box display="flex" mb={2}>
@@ -156,28 +158,29 @@ const SideDrawer = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               fullWidth
-              style={{ marginRight: '8px' }}
+              sx={{ marginRight: 1 }}
             />
-            <Button variant="contained" color="primary" onClick={handleSearch}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSearch}
+              sx={{ height: '100%', padding: '6px 16px' }}
+            >
               Go
             </Button>
           </Box>
           {loading ? (
-            <CircularProgress />
+            <ChatLoading />
           ) : (
             <List>
               {searchResult.map((user) => (
-                <ListItem
-                  button
-                  key={user._id}
-                  onClick={() => accessChat(user._id)}
-                >
+                <ListItem button key={user._id} onClick={() => accessChat(user._id)}>
                   <UserListItem user={user} />
                 </ListItem>
               ))}
             </List>
           )}
-          {loadingChat && <CircularProgress />}
+          {loadingChat && <CircularProgress sx={{ display: 'block', margin: '10px auto' }} />}
         </Box>
       </Drawer>
     </>

@@ -13,16 +13,21 @@ const ChatBox = ({ fetchAgain, setFetchAgain }) => {
           xs: selectedChat ? 'flex' : 'none',
           md: 'flex',
         },
-        alignItems: 'center',
         flexDirection: 'column',
+        justifyContent: 'space-between',
         padding: 3,
-        backgroundColor: 'white',
+        backgroundColor: '#fff', // Light background for the chat box
         width: {
           xs: '100%',
           md: '68%',
         },
-        borderRadius: '8px',
-        border: '1px solid rgba(0, 0, 0, 0.12)',
+        borderRadius: '12px',
+        border: '1px solid rgba(0, 0, 0, 0.12)', // Subtle border
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Soft shadow for depth
+        overflow: 'hidden',
+        maxHeight: '100vh', // To ensure chat box is scrollable on larger screens
+        background: 'linear-gradient(135deg, #e3f2fd, #bbdefb)', // Subtle gradient background
+        margin: '0 auto',
       }}
     >
       <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />

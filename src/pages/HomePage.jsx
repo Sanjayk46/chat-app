@@ -13,28 +13,31 @@ const HomePage = () => {
 
   return (
     <Container maxWidth="sm" sx={{ textAlign: 'center', marginTop: '40px' }}>
+      {/* App Logo */}
       <Box 
         sx={{
           display: 'flex',
           justifyContent: 'center',
           padding: 2,
-          backgroundColor: 'white',
+          backgroundColor: 'primary.main',
           borderRadius: '8px',
-          boxShadow: 1,
+          boxShadow: 3,
           marginBottom: 3,
         }}
       >
         <Link to="/" style={{ textDecoration: 'none' }}>
-          <Typography variant="h4" component="h1" fontFamily="Work Sans" color="black">
+          <Typography variant="h4" component="h1" fontFamily="Work Sans" color="white">
             Chat App
           </Typography>
         </Link>
       </Box>
+
+      {/* Tabs and Forms */}
       <Box
         sx={{
           backgroundColor: 'white',
           borderRadius: '8px',
-          boxShadow: 1,
+          boxShadow: 3,
           padding: 3,
         }}
       >
@@ -48,6 +51,8 @@ const HomePage = () => {
           <Tab label="Login" />
           <Tab label="Sign Up" />
         </Tabs>
+
+        {/* Login and SignUp Forms */}
         {value === 0 && (
           <Box mt={3}>
             <Login />

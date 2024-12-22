@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   IconButton,
   Typography,
@@ -26,35 +25,56 @@ const ProfileModal = ({ children }) => {
       {children ? (
         <span onClick={handleOpen}>{children}</span>
       ) : (
-        <IconButton onClick={handleOpen}>
+        <IconButton onClick={handleOpen} sx={{ color: 'primary.main' }}>
           <ViewIcon />
         </IconButton>
       )}
 
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-        <DialogTitle style={{ textAlign: 'center', fontSize: '24px', fontFamily: 'Work sans' }}>
-          {user.firstName}
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" sx={{ borderRadius: '12px' }}>
+        <DialogTitle sx={{ textAlign: 'center', fontSize: '24px', fontWeight: 'bold' }}>
+          {user.firstName} {user.lastName}
         </DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{ padding: 2 }}>
           <Box
             display="flex"
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
-            style={{ minHeight: '300px' }}
+            sx={{
+              minHeight: '300px',
+              textAlign: 'center',
+              gap: 2,
+              padding: 2,
+            }}
           >
             <Avatar
-              alt={user.name}
+              alt={user.firstName}
               src={user.pic}
-              style={{ width: '150px', height: '150px', marginBottom: '20px' }}
+              sx={{
+                width: 150,
+                height: 150,
+                marginBottom: 2,
+                border: '4px solid #38B2AC', // Border around avatar
+                boxShadow: '0 4px 6px rgba(0,0,0,0.1)', // Light shadow for elevation
+              }}
             />
-            <Typography variant="h6" style={{ fontFamily: 'Work sans', fontSize: '18px' }}>
+            <Typography variant="h6" sx={{ fontFamily: 'Work Sans, sans-serif', fontSize: '18px' }}>
               Email: {user.email}
             </Typography>
           </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary" variant="contained">
+        <DialogActions sx={{ padding: '16px' }}>
+          <Button
+            onClick={handleClose}
+            color="primary"
+            variant="contained"
+            sx={{
+              backgroundColor: '#38B2AC',
+              '&:hover': { backgroundColor: '#319e94' },
+              borderRadius: '8px',
+              padding: '8px 16px',
+            }}
+          >
             Close
           </Button>
         </DialogActions>

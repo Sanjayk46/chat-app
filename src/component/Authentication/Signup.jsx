@@ -6,11 +6,15 @@ import {
   IconButton,
   Container,
   Typography,
+  Grid,
+  Box,
+  CircularProgress,
 } from '@mui/material';
-import {Grid} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import AxiosService from '../../axiosConfig';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +35,7 @@ const Signup = () => {
     setLoading(true);
 
     if (!pics) {
-      alert('Please select an image');
+      toast.error('Please select an image');
       setLoading(false);
       return;
     }
@@ -52,10 +56,11 @@ const Signup = () => {
         })
         .catch((err) => {
           console.error(err);
+          toast.error('Error uploading image');
           setLoading(false);
         });
     } else {
-      alert('Please select an image');
+      toast.error('Please select a valid image');
       setLoading(false);
     }
   };
@@ -63,13 +68,13 @@ const Signup = () => {
   const submitHandler = async () => {
     setLoading(true);
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
-      alert('Please fill all the fields');
+      toast.error('Please fill all the fields');
       setLoading(false);
       return;
     }
 
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      toast.error('Passwords do not match');
       setLoading(false);
       return;
     }
@@ -83,20 +88,20 @@ const Signup = () => {
         { firstName, lastName, email, password, pic },
         config
       );
-      alert('Registration successful');
+      toast.success('Registration successful');
       localStorage.setItem('userInfo', JSON.stringify(data));
       setLoading(false);
       navigate('/chats');
     } catch (error) {
       console.error(error);
-      alert(error.response?.data?.message || 'Error occurred');
+      toast.error(error.response?.data?.message || 'Error occurred');
       setLoading(false);
     }
   };
 
   return (
-    <Container maxWidth="sm" style={{ marginTop: '2rem' }}>
-      <Typography variant="h4" gutterBottom>
+    <Container maxWidth="sm" sx={{ marginTop: '2rem', padding: '2rem', boxShadow: 3 }}>
+      <Typography variant="h4" gutterBottom sx={{ textAlign: 'center' }}>
         Sign Up
       </Typography>
       <Grid container spacing={2}>
@@ -107,6 +112,7 @@ const Signup = () => {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
+            sx={{ '& .MuiInputBase-root': { borderRadius: '10px' } }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -116,6 +122,7 @@ const Signup = () => {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
+            sx={{ '& .MuiInputBase-root': { borderRadius: '10px' } }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -125,6 +132,7 @@ const Signup = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            sx={{ '& .MuiInputBase-root': { borderRadius: '10px' } }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -135,6 +143,7 @@ const Signup = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            sx={{ '& .MuiInputBase-root': { borderRadius: '10px' } }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -154,6 +163,7 @@ const Signup = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            sx={{ '& .MuiInputBase-root': { borderRadius: '10px' } }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -166,7 +176,7 @@ const Signup = () => {
           />
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained" component="label" fullWidth>
+          <Button variant="contained" component="label" fullWidth sx={{ marginBottom: '1rem' }}>
             Upload Picture
             <input
               type="file"
@@ -183,11 +193,21 @@ const Signup = () => {
             fullWidth
             onClick={submitHandler}
             disabled={loading}
+            sx={{
+              padding: '0.75rem',
+              borderRadius: '10px',
+            }}
           >
-            Sign Up
+            {loading ? (
+              <CircularProgress size={24} sx={{ color: '#fff' }} />
+            ) : (
+              'Sign Up'
+            )}
           </Button>
         </Grid>
       </Grid>
+
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar />
     </Container>
   );
 };

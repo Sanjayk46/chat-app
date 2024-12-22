@@ -135,14 +135,16 @@ const ProfilePage = () => {
           borderColor: 'grey.300',
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
-          <Box>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+          <Box sx={{ textAlign: 'center' }}>
             <Avatar
               sx={{
                 width: 150,
                 height: 150,
                 marginBottom: 5,
                 objectFit: 'cover',
+                borderRadius: '50%',
+                boxShadow: 3,
               }}
               src={picPreview || user?.profilePic || './images/default_avatar.png'}
               alt={user?.name}
@@ -151,43 +153,86 @@ const ProfilePage = () => {
               type="file"
               accept="image/*"
               onChange={(event) => postDetails(event.target.files[0])} // Pass the file for Cloudinary upload
-              sx={{ mb: 4 }}
+              sx={{
+                mb: 4,
+                border: '1px solid #ddd',
+                padding: 1,
+                borderRadius: 1,
+                '&:hover': { borderColor: 'primary.main' },
+              }}
             />
-            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
               First Name
             </Typography>
             <Input
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="First Name"
-              sx={{ mb: 4 }}
+              sx={{
+                mb: 4,
+                padding: 1,
+                borderRadius: 1,
+                borderColor: 'grey.400',
+                '&:hover': { borderColor: 'primary.main' },
+              }}
             />
-            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
               Last Name
             </Typography>
             <Input
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               placeholder="Last Name"
-              sx={{ mb: 4 }}
+              sx={{
+                mb: 4,
+                padding: 1,
+                borderRadius: 1,
+                borderColor: 'grey.400',
+                '&:hover': { borderColor: 'primary.main' },
+              }}
             />
 
             <Typography variant="h6" sx={{ fontWeight: 'bold', mt: 4 }}>
               Email Address
             </Typography>
-            <Typography variant="body1">{user.email}</Typography>
+            <Typography variant="body1" sx={{ mb: 2 }}>
+              {user.email}
+            </Typography>
 
             <Typography variant="h6" sx={{ fontWeight: 'bold', mt: 4 }}>
               Joined
             </Typography>
             <Typography variant="body1">{String(user?.createdAt).substring(0, 10)}</Typography>
 
-            <Button sx={{ width: '100%', mt: 4 }} color="primary" onClick={handleProfileUpdate}>
+            <Button
+              sx={{
+                width: '100%',
+                mt: 4,
+                padding: 1.5,
+                borderRadius: 1,
+                backgroundColor: 'primary.main',
+                color: 'white',
+                '&:hover': { backgroundColor: 'primary.dark' },
+              }}
+              color="primary"
+              onClick={handleProfileUpdate}
+            >
               Update Profile
             </Button>
 
             <Link to="/chats">
-              <Button sx={{ width: '100%', mt: 5 }} color="secondary">
+              <Button
+                sx={{
+                  width: '100%',
+                  mt: 5,
+                  padding: 1.5,
+                  borderRadius: 1,
+                  backgroundColor: 'secondary.main',
+                  color: 'white',
+                  '&:hover': { backgroundColor: 'secondary.dark' },
+                }}
+                color="secondary"
+              >
                 My Chats
               </Button>
             </Link>

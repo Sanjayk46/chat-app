@@ -118,21 +118,15 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
 
   return (
     <>
-      <IconButton onClick={handleOpen}>
-        <CloseIcon />
+      <IconButton onClick={handleOpen} sx={{ position: 'absolute', top: 8, right: 8 }}>
+        <CloseIcon sx={{ color: '#000' }} />
       </IconButton>
 
-      <Dialog open={open} onClose={handleClose} fullWidth>
-        <DialogTitle sx={{ fontSize: '24px', textAlign: 'center' }}>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+        <DialogTitle sx={{ fontSize: '24px', textAlign: 'center', fontWeight: 'bold' }}>
           {selectedChat.chatName}
         </DialogTitle>
-        <IconButton
-          sx={{ position: 'absolute', right: 16, top: 16 }}
-          onClick={handleClose}
-        >
-          <CloseIcon />
-        </IconButton>
-        <DialogContent>
+        <DialogContent sx={{ padding: '16px' }}>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
             {selectedChat.users.map((u) => (
               <UserBadgeItem key={u._id} user={u} handleFunction={() => handleRemove(u)} />
@@ -151,8 +145,9 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
             color="primary"
             onClick={handleRename}
             disabled={renameLoading}
+            sx={{ width: '100%', mb: 2 }}
           >
-            {renameLoading ? <CircularProgress size={20} /> : 'Update'}
+            {renameLoading ? <CircularProgress size={20} /> : 'Update Chat Name'}
           </Button>
           <TextField
             fullWidth
@@ -169,11 +164,12 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
             ))
           )}
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ padding: '16px' }}>
           <Button
             variant="contained"
             color="error"
             onClick={() => handleRemove(user)}
+            sx={{ width: '100%' }}
           >
             Leave Group
           </Button>

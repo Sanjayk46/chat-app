@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChatState } from '../Context/ChatProvider';
-import {  Stack } from '@mui/material';
+import { Stack, Box } from '@mui/material';
 import SideDrawer from '../component/Miscellaneous/SideDrawer';
 import MyChats from '../component/MyChats';
 import ChatBox from '../component/ChatBox';
@@ -11,18 +11,54 @@ const ChatPage = () => {
   const [fetchAgain, setFetchAgain] = useState(false);
 
   return (
-    <div style={{ width: '100%' }}>
+    <Box sx={{ width: '100%', height: '100vh', backgroundColor: 'background.default' }}>
       {user && <SideDrawer />}
       <Stack
-        direction="row"
+        direction={{ xs: 'column', md: 'row' }}
         justifyContent="space-between"
         spacing={2}
-        sx={{ width: '100%', height: '91.5vh', padding: 1 }}
+        sx={{
+          width: '100%',
+          height: 'calc(100vh - 64px)', // Adjusting for header height if any
+          padding: 1,
+          marginTop: 2,
+        }}
       >
-        {user && <MyChats fetchAgain={fetchAgain} />}
-        {user && <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
+        {/* Left Section (MyChats) */}
+        {user && (
+          <Box
+            sx={{
+              width: { xs: '100%', md: '30%' },
+              height: '100%',
+              backgroundColor: 'white',
+              borderRadius: 2,
+              boxShadow: 3,
+              padding: 2,
+              overflowY: 'auto',
+            }}
+          >
+            <MyChats fetchAgain={fetchAgain} />
+          </Box>
+        )}
+
+        {/* Right Section (ChatBox) */}
+        {user && (
+          <Box
+            sx={{
+              width: { xs: '100%', md: '65%' },
+              height: '100%',
+              backgroundColor: 'white',
+              borderRadius: 2,
+              boxShadow: 3,
+              padding: 2,
+              overflowY: 'auto',
+            }}
+          >
+            <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+          </Box>
+        )}
       </Stack>
-    </div>
+    </Box>
   );
 };
 
