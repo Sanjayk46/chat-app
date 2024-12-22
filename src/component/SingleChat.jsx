@@ -13,7 +13,8 @@ import Lottie from 'react-lottie';
 import animationData from '../animations/typing.json';
 import { toast } from 'react-toastify';
 
-const ENDPOINT = 'http://localhost:8000';
+//const ENDPOINT = 'http://localhost:8000';
+const ENDPOINT = 'https://chat-app-backend-qxkv.onrender.com';
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
